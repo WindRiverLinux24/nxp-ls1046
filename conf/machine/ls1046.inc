@@ -22,11 +22,6 @@ IMAGE_BOOT_FILES ?= " Image fsl-ls1046a-rdb-sdk.dtb fsl-ls1046a-rdb-usdpaa.dtb"
 MULTILIBS ?= "multilib:lib32"
 DEFAULTTUNE:virtclass-multilib-lib32 ?= "armv7athf-neon"
 
-EXTRA_IMAGEDEPENDS = "u-boot-qoriq u-boot-uenv"
-UBOOT_CONFIG ??= "sdcard qspi"
-UBOOT_CONFIG[sdcard] = "ls1046ardb_sdcard_config,,u-boot-with-spl-pbl.bin"
-UBOOT_CONFIG[qspi] = "ls1046ardb_qspi_config,,u-boot-dtb.bin"
-
 # it's used by many recipes in meta-freescale
 MACHINE_SOCARCH = "${TUNE_PKGARCH}"
 
