@@ -7,7 +7,8 @@ require conf/machine/include/arm/armv8a/tune-cortexa72.inc
 MACHINE_FEATURES += "usbhost jffs2 ext2 alsa vfat"
 
 KERNEL_IMAGETYPE = "Image"
-KERNEL_DEVICETREE = "freescale/fsl-ls1046a-rdb-sdk.dtb freescale/fsl-ls1046a-rdb-usdpaa.dtb"
+KERNEL_DEVICETREE = "freescale/fsl-ls1046a-rdb-sdk.dtb freescale/fsl-ls1046a-rdb-usdpaa.dtb \
+			freescale/fsl-ls1026a-rdb-sdk.dtb freescale/fsl-ls1026a-rdb-usdpaa.dtb"
 
 SERIAL_CONSOLE = "115200 ttyS0"
 
@@ -16,7 +17,8 @@ IMAGE_FSTYPES += "tar.bz2 wic wic.bmap"
 WKS_FILE = "nxp-ls1046-sdimage.wks"
 IMAGE_INSTALL:append = " kernel-devicetree kernel-image-image"
 do_image_wic[depends] += "mtools-native:do_populate_sysroot dosfstools-native:do_populate_sysroot"
-IMAGE_BOOT_FILES ?= " Image fsl-ls1046a-rdb-sdk.dtb fsl-ls1046a-rdb-usdpaa.dtb"
+IMAGE_BOOT_FILES ?= " Image fsl-ls1046a-rdb-sdk.dtb fsl-ls1046a-rdb-usdpaa.dtb \
+			fsl-ls1026a-rdb-sdk.dtb fsl-ls1026a-rdb-usdpaa.dtb"
 
 # multilib support
 MULTILIBS ?= "multilib:lib32"
