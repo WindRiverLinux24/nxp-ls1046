@@ -103,3 +103,12 @@ LS1026A rev1.0:
 	BootLoader Version:     U-Boot 2021.04 (Mar 01 2022 - 07:31:56 +0000)
 	FMAN Firmware:          106.4.18
 
+
+5. Known Issues
+===============
+
+5.1 Network issue on SFP port
+-----------------------------
+When senting data with SFP port, there is memory leak issue because the skb buffer
+is not released properly.
+This issue also exists in all previous sdk versions.
