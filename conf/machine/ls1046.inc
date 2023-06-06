@@ -33,6 +33,7 @@ BSP_NXP_DERIVED:append:nxp-ls1046  = " nxp-ls1046"
 PREFERRED_PROVIDER_virtual/kernel ??= "linux-yocto"
 PREFERRED_VERSION_linux-yocto ?= "6.1%"
 PREFERRED_VERSION_dpdk = "21.11"
+PREFERRED_VERSION_dpdk-module = "21.11.%"
 
 NON_MULTILIB_RECIPES:append = " rcw"
 
