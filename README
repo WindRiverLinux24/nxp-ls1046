@@ -1,4 +1,4 @@
-        NXP LS1046 Boards
+        NXP LS1046A-RDB Board Support Package
 
 
 1. About this document
@@ -27,7 +27,7 @@ is done automatically when using the Wind River configure wrapper.
 
 License
 -------
-Copyright (C) 2022 Wind River Systems, Inc.
+Copyright (C) 2023 Wind River Systems, Inc.
 
 Source code included in tree for individual recipes is under the LICENSE
 stated in each recipe (.bb file) unless other stated.
@@ -73,7 +73,7 @@ along with patch descriptions use git whatchanged on the default
 kernel (git whatchanged <kernel_type>..<bsp_name>). For example:
 
   # cd tmp-glibc/work-shared/<bsp_name>/kernel-source
-  # git whatchanged v5.15/standard/base..v5.15/standard/nxp-sdk-5.15/nxp-socs
+  # git whatchanged v6.1/standard/base..v6.1/standard/nxp-sdk-6.1/nxp-soc
 
 
 4. Boot Instructions
@@ -138,21 +138,23 @@ othbootargs=earlycon=uart8250,mmio,0x21c0500
 
 4.2 Booting from SPI flash
 --------------------------
+
 4.2.1 On-Board SPI Flash vbank Configuration
-------------------------------------------
+
 The LS1046ARDB provides two QSPI flash memories (part number: S25FS512SDSMFI011) 
 for storing images (RCW/UBoot/kernel/PPA/FMan microcode):
  - Flash memory connected to chip select 0 (CS0): Represents the default virtual bank (bank 0)
  - Flash memory connected to chip select 1 (CS1): Represents the alternative virtual bank (bank 4)
 Below description shows the memory addresses (memory map) for storing board configuration data on 
 virtual bank 0 and virtual bank 4.
-4.2.2 NXP's pre-built image
---------------------------
 
-NXP provides a pre-built image which contains U-Boot, RCW, etc.
-Please download it through:
+4.2.2 NXP bootloader image
 
- wget https://www.nxp.com/lgfiles/sdk/lsdk2108/firmware_ls1046ardb_qspiboot.img
+WRLinux product provides a solution to build bootloader image which contains U-Boot, RCW, etc.
+Please refer to section 6 to build NXP bootloader image.
+
+After building, the bootloader image(firmware_ls1046ardb_uboot_<boot-type>.img) is generated
+in directory <building-path>/build/tmp-glibc/deploy/images/nxp-ls1046.
 
 and burn it to the target board under the U-Boot prompt using the commands below:
 
@@ -167,7 +169,6 @@ Then use
 to switch to vbank4.
 
 4.2.3 Set board switch
-----------------------
 
 Set dipsw as below for booting from flash0
 SW3[1:8] 		SW4[1:8] 		SW5[1:8]
@@ -179,8 +180,9 @@ SW3[1:8] 		SW4[1:8] 		SW5[1:8]
 
 4.3 NAND Flash Root File System
 -------------------------------
-4.3.1 Generate the boot image:
-------------------------------
+
+4.3.1 Generate the boot image
+
 Configure your project with the following options to enable necessary kernel
 options:
         --templates feature/yaffs2-utils
@@ -232,10 +234,8 @@ tmp-glibc/deploy/images/<bsp name>/ ,such as:
 WIC image for SD card:
 tmp-glibc/deploy/images/nxp-ls1046/wrlinux-image-std-nxp-ls1046.wic
 
-
 Then user can write the output image to a SD card. WIC image contains kernel,
-dtb, rootfs and u-boot. User still need to write fman microcode image to SD card
-by "dd" command.
+dtb, rootfs and bootloader(if customer builds it by following the section 6).
 
 To change default booting configuration in uboot, user can overwrite following
 variable in uboot and save to SD by saveenv command:
@@ -247,19 +247,18 @@ variable in uboot and save to SD by saveenv command:
 4.4.1 Burn images to SD card
 ----------------------------
 
-To burn uboot and WIC images to SD card, user need to execute two steps:
+To burn images to SD card, user needs to follow two steps:
 
-1) Burn WIC image
+1) Generate WIC image with NXP bootloader
+
+WRLinux product provides a solution to build WIC image with NXP bootloader.
+Please refer to section 6 for the detailed description.
+After building, the WIC image(wrlinux-image-std-nxp-ls1046.wic) is generated
+in directory <building-path>/build/tmp-glibc/deploy/images/nxp-ls1046.
+
+2) Burn WIC image
 
 # dd if=wrlinux-image-std-nxp-ls1046.wic of=/dev/your_sd_dev
-
-2) Burn NXP pre-built SD image
-
-NXP provides a pre-built SD image which contains U-Boot, RCW, firmware, etc.
-Please download it through:
-"wget https://www.nxp.com/lgfiles/sdk/lsdk2108/firmware_ls1046ardb_sdboot.img"
-
-# dd if=firmware_ls1046ardb_uboot_sdboot.img of=/dev/your_sd_dev bs=512 seek=8 conv=fsync
 
 4.4.2 Set board switch
 ----------------------
@@ -267,11 +266,6 @@ Please download it through:
 Board can boot from SD card by setting sw4[1:8] as '00111011' and sw5[1:8] as '00100000'.
 After power up, if a bootable SD card inserted, then system will boot from SD
 card.
-
-Note: NXP does not provide a pre-built eMMC image which contains U-Boot, RCW, firmware, etc.
-If customer wants to generate WIC for eMMC, it needs to create Yocto SDK Project refer to below link.
-https://source.codeaurora.org/external/qoriq/qoriq-components/yocto-sdk/about/?h=honister
-Add eMMC related configurations and build the bootloader that includes U-Boot, RCW, firmware, etc.
 
 
 5. Features
@@ -352,7 +346,7 @@ via the U-Boot command line.
 
 NOTES:
 1. Use Image as a secondary kernel. It can be found in the directory
-   tmp-glibc/deploy/images/nxp-ls1043/Image
+   tmp-glibc/deploy/images/nxp-ls1046/Image
 
 2. 512 MB (the size of the memory reserved for crash kernel) is the
    recommended amount of memory. If you add more features to the kernel, you
@@ -367,9 +361,9 @@ NOTES:
 
 4. Same with LSDK, DPAA1 should be compiled out while creating the image for
    dump-capture 2nd kernel. With "CONFIG_FSL_SDK_DPAA_ETH=n"
-   in the kernel .config setting to disable DPAA1, can choose PCIe device "CONFIG_E1000E=y"
+   in the kernel .config setting to disable DPAA1, user can choose PCIe device "CONFIG_E1000E=y"
    as a replacement to make NFS working.
-   Please refer to the chapter 7.3 "Known bugs, limitations or technical issues" of "LSDKUG_Rev21.08.pdf".
+   Please refer to the chapter 7.6 "kdump/kexec User Manual" of "LLDPUG_RevL6.1.1-1.0.0.pdf".
 
 For more detailed information about kdump, please refer to
 Documentation/kdump/kdump.txt in the kernel source tree.
@@ -392,3 +386,29 @@ sw3[2] definition for LS1046A processor as below:
 
 Note:
 When booting up system with LS1026A mode, please use fsl-ls1026a-rdb-sdk.dtb file.
+
+
+6. Build Bootloader
+===================
+
+Because of license limitation, the NXP ls1046 bootloader is not supported on WRLinux product.
+But the necessary recipe files of building bootloader have been integrated into WRLinux product. In this way,
+the customers can build bootloader for NXP ls1046 platform based on WRLinux product by themselves.
+To build bootloader image for NXP ls1046 platform, it only needs to add below contents in local.conf file,
+and then build WRLinux image as usual.
+
+	BB_NO_NETWORK = '0'
+	ACCEPT_FSL_EULA = "1"
+	CUSTOMER_BUILD_BOOTLOADER = "1"
+	CUSTOMER_RECIPES:meta-qoriq += 'secure-boot-qoriq'
+	CUSTOMER_RECIPES:meta-qoriq += 'u-boot-qoriq'
+	CUSTOMER_RECIPES:meta-qoriq += 'qoriq-atf'
+	CUSTOMER_RECIPES:freescale-layer += 'fm-ucode'
+	CUSTOMER_RECIPES:freescale-layer += 'qe-ucode'
+	CUSTOMER_RECIPES:freescale-layer += 'qoriq-cst-native'
+	CUSTOMER_RECIPES:freescale-layer += 'uefi'
+	CUSTOMER_RECIPES:freescale-layer += 'rcw'
+	CUSTOMER_RECIPES:freescale-layer += 'ls2-phy'
+
+Note: If customers want to integrate bootloader into their own product, they MUST consult NXP and their own
+      legal department.
