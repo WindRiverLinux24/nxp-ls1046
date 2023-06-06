@@ -37,3 +37,18 @@ PREFERRED_VERSION_dpdk-module = "21.11.%"
 
 NON_MULTILIB_RECIPES:append = " rcw"
 
+CUSTOMER_BUILD_BOOTLOADER ?= "0"
+SDK_MACHINE = "ls1046ardb"
+UBOOT_CONFIG ??= "tfa-secure-boot tfa"
+UBOOT_CONFIG[tfa] = "ls1046ardb_tfa_defconfig"
+UBOOT_CONFIG[tfa-secure-boot] = "ls1046ardb_tfa_SECURE_BOOT_defconfig"
+RCWQSPI ?= "RR_FFSSPPPH_1133_5559/rcw_1800_qspiboot"
+RCWSD ?= "RR_FFSSPPPH_1133_5559/rcw_1800_sdboot"
+RCWEMMC ?= "RR_FFSSPPPH_1133_5559/rcw_1800_emmcboot"
+FMAN_UCODE ?= "fsl_fman_ucode_ls1046_r1.0_106_4_18.bin"
+EXTRA_IMAGEDEPENDS:append = " ${@bb.utils.contains('CUSTOMER_BUILD_BOOTLOADER', '1', \
+									'fm-ucode rcw qe-ucode uefi qoriq-atf ls2-phy', '', d)}"
+PREFERRED_PROVIDER_u-boot ??= "u-boot-qoriq"
+MACHINEOVERRIDES:prepend = "${@bb.utils.contains('CUSTOMER_BUILD_BOOTLOADER', '1', \
+									'fsl-lsch2:qoriq:qoriq-arm64:ls1046a:ls1046ardb:', '', d)}"
+do_image_wic[depends] += "${@bb.utils.contains('CUSTOMER_BUILD_BOOTLOADER', '1', 'secure-boot-qoriq:do_deploy', '', d)}"
