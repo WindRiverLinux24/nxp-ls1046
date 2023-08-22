@@ -5,7 +5,7 @@ SRC_URI:nxp-ls1046 = "git://github.com/nxp-qoriq/dpdk;protocol=https;nobranch=1"
 SRC_URI:append:nxp-ls1046 = " \
             file://0001-meson.build-march-and-mcpu-already-passed-by-Yocto.patch \
 "
-SRCREV:nxp-ls1046 = "eb28c02bc1221e788688f0de9ff5b2bb1a062006"
+SRCREV:nxp-ls1046 = "c79a5810a17eff108cd49c314ab99f466ce31a0f"
 
 MESON_BUILDTYPE:nxp-ls1046 = "release"
 
@@ -14,6 +14,8 @@ PACKAGECONFIG[openssl] = ",,openssl"
 
 DPDK_EXAMPLES:nxp-ls1046 = "all"
 EXTRA_OEMESON:append:nxp-ls1046 = " \
+		-Doptimization=3 \
+		-Denable_driver_sdk=true \
 		${@bb.utils.contains('DISTRO_FEATURES', 'vpp', '-Dc_args="-Ofast -fPIC -ftls-model=local-dynamic"', '', d)} \
 "
 
