@@ -109,6 +109,5 @@ LS1026A rev1.0:
 
 5.1 Network issue on SFP port
 -----------------------------
-When senting data with SFP port, there is memory leak issue because the skb buffer
-is not released properly.
-This issue also exists in all previous sdk versions.
+If data is sent through SFP port(J7) without a connected network cable, there will be a memory leak issue.
+This issue also exists in all previous SDK versions.
