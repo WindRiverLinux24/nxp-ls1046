@@ -17,6 +17,8 @@ This BSP supports the following boards:
 
   + NXP LS1046A-RDB: SCH-29142 REV B2
   + NXP LS1046A-RDB(LS1026A mode): SCH-29142 REV B2 with cores 3 and 4 disabled.
+  + NXP LS1046A-RDB: SCH-29142 REV C
+  + NXP LS1046A-RDB(LS1026A mode): SCH-29142 REV C with cores 3 and 4 disabled.
 
 2. Change History
 =================
