@@ -46,7 +46,7 @@ the corresponding h/w features exist.
         + SDHC: connect with SD card or eMMC
 
   o Network
-        + 10G Copper Ethernet: connect with AQR106 10G PHY
+        + 10G Copper Ethernet: connect with AQR106/AQR113C 10G PHY
         + 10G SFP+: connect with Finisar FTLX8571D3BCL SFP+ module
         + 10/100/1000M Ethernet: RGMII, 2 ports, connect with RTL8211FS PHY
         + 10/100/1000M Ethernet: SGMII, 2 ports, connect with RTL8211FS PHY
@@ -93,16 +93,16 @@ in a different environment it may possibly have some issues.
 
 LS1046A rev1.0:
 	Processor:              LS1046AE Rev1.0 (0x87070010)
-	Board Revision:	        REV B2, CPLD: V2.3, PCBA: V2.0
+	Board Revision:	        REV B2/C, CPLD: V2.3, PCBA: V2.0
 	BootLoader:             U-Boot
-	BootLoader Version:     U-Boot 2022.04+fsl+g7376547b9e (Mar 01 2023 - 07:35:40 +0000)
+	BootLoader Version:     U-Boot 2023.04+fsl+gaf7d004eaf (Jun 06 2023 - 14:59:40 +0000)
 	FMAN Firmware:          106.4.18
 
 LS1026A rev1.0:
 	Processor:              LS1026AE Rev1.0 (0x87070810)
-	Board Revision:	        REV B2, CPLD: V2.3, PCBA: V2.0
+	Board Revision:	        REV B2/C, CPLD: V2.3, PCBA: V2.0
 	BootLoader:             U-Boot
-	BootLoader Version:     U-Boot 2022.04+fsl+g7376547b9e (Mar 01 2023 - 07:35:40 +0000)
+	BootLoader Version:     U-Boot 2023.04+fsl+gaf7d004eaf (Jun 06 2023 - 14:59:40 +0000)
 	FMAN Firmware:          106.4.18
 
 
