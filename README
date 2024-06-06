@@ -27,7 +27,7 @@ is done automatically when using the Wind River configure wrapper.
 
 License
 -------
-Copyright (C) 2023 Wind River Systems, Inc.
+Copyright (C) 2024 Wind River Systems, Inc.
 
 Source code included in tree for individual recipes is under the LICENSE
 stated in each recipe (.bb file) unless other stated.
@@ -73,7 +73,7 @@ along with patch descriptions use git whatchanged on the default
 kernel (git whatchanged <kernel_type>..<bsp_name>). For example:
 
   # cd tmp-glibc/work-shared/<bsp_name>/kernel-source
-  # git whatchanged v6.1/standard/base..v6.1/standard/nxp-sdk-6.1/nxp-soc
+  # git whatchanged v6.6/standard/base..v6.6/standard/nxp-sdk-6.6/nxp-soc
 
 
 4. Boot Instructions
@@ -343,11 +343,12 @@ NOTES:
    "replacement" kernel. In contrast, the only purpose of the 2nd kernel is to collect
    the crashing information of the 1st kernel.
 
-4. Same with LSDK, DPAA1 should be compiled out while creating the image for
-   dump-capture 2nd kernel. With "CONFIG_FSL_SDK_DPAA_ETH=n"
-   in the kernel .config setting to disable DPAA1, user can choose PCIe device "CONFIG_E1000E=y"
-   as a replacement to make NFS working.
-   Please refer to the chapter 7.6 "kdump/kexec User Manual" of "LLDPUG_RevL6.1.1-1.0.0.pdf".
+4. Same with Layerscape Linux Distribution POC, DPAA1 should be compiled out while creating
+   the image for dump-capture 2nd kernel. With "CONFIG_FSL_SDK_DPAA_ETH=n" in the kernel
+   .config setting to disable DPAA1, user can choose PCIe device "CONFIG_E1000E=y" as a
+   replacement to make NFS working.
+   Please refer to the chapter "kdump/kexec User Manual" of below link:
+   https://docs.nxp.com/bundle/UG10081_LLDP_L6.1.55_2.2.0/page/topics/kdump_kexec_user_manual.html
 
 For more detailed information about kdump, please refer to
 Documentation/kdump/kdump.txt in the kernel source tree.
