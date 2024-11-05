@@ -5,7 +5,6 @@ SRC_URI:nxp-ls1046 = "git://github.com/nxp-qoriq/dpdk;protocol=https;nobranch=1"
 SRC_URI:append:nxp-ls1046 = " \
             file://0001-meson.build-march-and-mcpu-already-passed-by-Yocto.patch \
 "
-SRCREV:nxp-ls1046 = "9298b898fe38482fbb293d431cdeea4297c17e70"
 
 MESON_BUILDTYPE:nxp-ls1046 = "release"
 
