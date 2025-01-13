@@ -51,3 +51,11 @@ PREFERRED_PROVIDER_u-boot ??= "u-boot-qoriq"
 MACHINEOVERRIDES:prepend = "${@bb.utils.contains('CUSTOMER_BUILD_BOOTLOADER', '1', \
 									'fsl-lsch2:qoriq:qoriq-arm64:ls1046a:ls1046ardb:', '', d)}"
 do_image_wic[depends] += "${@bb.utils.contains('CUSTOMER_BUILD_BOOTLOADER', '1', 'secure-boot-qoriq:do_deploy', '', d)}"
+
+# optee related configs
+MACHINE_FEATURES:append = " optee"
+DISTRO_FEATURES:append = " optee"
+NON_MULTILIB_RECIPES:append = " optee-os-qoriq"
+NON_MULTILIB_RECIPES:append = " optee-test-qoriq"
+NON_MULTILIB_RECIPES:append = " optee-client-qoriq"
+NON_MULTILIB_RECIPES:append = " optee-os-qoriq-tadevkit"

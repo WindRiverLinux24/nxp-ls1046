@@ -397,3 +397,30 @@ and then build WRLinux image as usual.
 
 Note: If customers want to integrate bootloader into their own product, they MUST consult NXP and their own
       legal department.
+
+7. OP-TEE
+=========
+
+7.1 Building OP-TEE OS
+----------------------
+
+Currently, OP-TEE feature is supported by default. When users build bootloader image referring to section 6,
+the optee-os(BL32 image) is integrated into bootloader automatically.
+
+7.2 OP-TEE Verificaton
+----------------------
+
+1) Deploy wic image with below command:
+
+	# dd if=wrlinux-image-std-nxp-ls1046.wic of=/dev/your_sd_dev conv=fsync status=progress
+
+2) Run below command to validate the OP-TEE feature with highest level 15
+
+	# xtest -l 15
+
+	Theoretically, all the test cases should be passed, and users will get below test result.
+
+	61607 subtests of which 0 failed
+	155 test cases of which 0 failed
+	0 test cases were skipped
+	TEE test application done!
